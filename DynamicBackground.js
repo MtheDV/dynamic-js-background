@@ -13,6 +13,7 @@ let randomTimeMin = 3; // in s
 let randomMoveMax = 200; // in px
 let randomMoveMin = -200; // in px
 let blur = 150; // in px
+let zIndex = -5;
 
 // method to create dynamic objects
 const setDynamicObject = (top, left, color) => {
@@ -23,6 +24,7 @@ const setDynamicObject = (top, left, color) => {
     newDynamicObject.style.borderRadius = "100%";
     newDynamicObject.style.top = top;
     newDynamicObject.style.left = left;
+    newDynamicObject.style.zIndex = zIndex;
     newDynamicObject.style.backgroundColor = color;
     newDynamicObject.style.transition = "transform 10s ease-in-out";
     newDynamicObject.style.transform = "center";
@@ -36,6 +38,7 @@ dynamicBackground.style.width = "140%";
 dynamicBackground.style.height = "140%";
 dynamicBackground.style.top = "-20%";
 dynamicBackground.style.left = "-20%";
+dynamicBackground.style.zIndex = zIndex;
 dynamicBackground.style.backgroundColor = "#60C93E";
 dynamicBackground.style.filter = "blur(" + blur + "px)";
 // create dynamic objects
