@@ -10,3 +10,6 @@ Add the following to your html file:<br>
     `<script src="DynamicBackground.js" async></script>`
 
 You can then modify the variables as required within the JavaScript file to suit your needs.
+
+Check out the codepen here!
+https://codepen.io/mthedv/pen/VwKxjBO
