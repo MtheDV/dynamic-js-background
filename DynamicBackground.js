@@ -24,7 +24,7 @@ const setDynamicObject = (top, left, color) => {
     newDynamicObject.style.borderRadius = "100%";
     newDynamicObject.style.top = top;
     newDynamicObject.style.left = left;
-    newDynamicObject.style.zIndex = zIndex;
+    newDynamicObject.style.zIndex = "" + zIndex;
     newDynamicObject.style.backgroundColor = color;
     newDynamicObject.style.transition = "transform 10s ease-in-out";
     newDynamicObject.style.transform = "center";
@@ -38,7 +38,7 @@ dynamicBackground.style.width = "140%";
 dynamicBackground.style.height = "140%";
 dynamicBackground.style.top = "-20%";
 dynamicBackground.style.left = "-20%";
-dynamicBackground.style.zIndex = zIndex;
+dynamicBackground.style.zIndex = "" + zIndex;
 dynamicBackground.style.backgroundColor = "#60C93E";
 dynamicBackground.style.filter = "blur(" + blur + "px)";
 // create dynamic objects
@@ -56,7 +56,7 @@ for (let i = 0; i < dynamicObjects.length; i++) {
 }
 
 const moveDynamicObject = (dynamicObject) => {
-    let newPosX = 0; let newPosY = 0;
+    let newPosX; let newPosY;
     // set random new position
     if (dynamicObject.getBoundingClientRect().left + dynamicObject.getBoundingClientRect().width / 2 < window.innerWidth / 2)
         newPosX = Math.random() * (randomMoveMax - randomMoveMin / 4) + randomMoveMin / 4;
