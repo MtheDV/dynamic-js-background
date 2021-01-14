@@ -8,26 +8,36 @@
 // todo: add creation and de-creation of elements
 
 // EDIT THESE VARIABLES TO MODIFY THE BACKGROUND
-let randomTimeMax = 5; // in s
-let randomTimeMin = 3; // in s
-let randomMoveMax = 200; // in px
-let randomMoveMin = -200; // in px
-let blur = 150; // in px
+let randomTimeMax = 5; // in seconds
+let randomTimeMin = 3; // in seconds
+let randomMoveMax = 30; // in %
+let randomMoveMin = -30; // in %
+let blur = 100; // in %
 let zIndex = -5;
 
 // method to create dynamic objects
-const setDynamicObject = (top, left, color) => {
+const setDynamicObject = (top, left, color, width) => {
     let newDynamicObject = document.createElement("div");
     newDynamicObject.style.position = "fixed";
-    newDynamicObject.style.width = "1200px";
-    newDynamicObject.style.height = "1200px";
-    newDynamicObject.style.borderRadius = "100%";
-    newDynamicObject.style.top = top;
-    newDynamicObject.style.left = left;
-    newDynamicObject.style.zIndex = "" + zIndex;
+    if (window.innerWidth > window.innerHeight) {
+        newDynamicObject.style.width = width + "%";
+        newDynamicObject.style.height = (window.innerWidth / window.innerHeight * width) + "%";
+        newDynamicObject.style.top = top + "%";
+        newDynamicObject.style.left = left + "%";
+    } else {
+        newDynamicObject.style.height = width + 20 + "%";
+        newDynamicObject.style.width = (window.innerHeight / window.innerWidth * width) + "%";
+        newDynamicObject.style.top = top / 2 + "%";
+        newDynamicObject.style.left = left + "%";
+    }
+    newDynamicObject.style.borderRadius = "50%";
+    newDynamicObject.style.zIndex = "" + (zIndex + 1);
     newDynamicObject.style.backgroundColor = color;
     newDynamicObject.style.transition = "transform 10s ease-in-out";
+    newDynamicObject.style.WebKitTransform = "center";
+    newDynamicObject.style.MSTransform = "center";
     newDynamicObject.style.transform = "center";
+    newDynamicObject.style.WebKitFilter = "blur(" + blur + "px)";
     newDynamicObject.style.filter = "blur(" + blur + "px)";
     return newDynamicObject;
 }
@@ -40,14 +50,12 @@ dynamicBackground.style.top = "-20%";
 dynamicBackground.style.left = "-20%";
 dynamicBackground.style.zIndex = "" + zIndex;
 dynamicBackground.style.backgroundColor = "#60C93E";
-dynamicBackground.style.filter = "blur(" + blur + "px)";
 // create dynamic objects
 let dynamicObjects = [];
-dynamicObjects.push(setDynamicObject("50%", "30%", "#60C93E"));
-dynamicObjects.push(setDynamicObject("-45%", "45%", "#D1306A"));
-dynamicObjects.push(setDynamicObject("50%", "55%", "#009DDF"));
-dynamicObjects.push(setDynamicObject("23%", "-40%", "#FFE100"));
-dynamicObjects.push(setDynamicObject("-85%", "-20%", "#FF642C"));
+dynamicObjects.push(setDynamicObject(-45, 45, "#d1306a", 100));
+dynamicObjects.push(setDynamicObject(23, -30, "#ffe100", 90));
+dynamicObjects.push(setDynamicObject(50, 45, "#009ddf", 90));
+dynamicObjects.push(setDynamicObject(-100, -25, "#ff642c", 85));
 // add dynamic objects to html div
 let dynamicBackgroundDIV = document.getElementById("dynamic_background");
 dynamicBackgroundDIV.appendChild(dynamicBackground);
@@ -72,7 +80,9 @@ const moveDynamicObject = (dynamicObject) => {
 
     // update position
     dynamicObject.style.transition = "transform " + randTime + "s ease-in-out";
-    dynamicObject.style.transform = "translate3d(" + newPosX + "px, " + newPosY + "px, 0)";
+    dynamicObject.style.WebKitTransform =  "translate3d(" + newPosX + "%, " + newPosY + "%, 0)";
+    dynamicObject.style.MSTransform =  "translate3d(" + newPosX + "%, " + newPosY + "%, 0)";
+    dynamicObject.style.transform =  "translate3d(" + newPosX + "%, " + newPosY + "%, 0)";
 
     // timeout with random time between X and X seconds
     setTimeout(moveDynamicObject.bind(null, dynamicObject), randTime * 1000);
@@ -82,3 +92,14 @@ const moveDynamicObject = (dynamicObject) => {
 for (let i = 0; i < dynamicObjects.length; i++) {
     moveDynamicObject(dynamicObjects[i]);
 }
+
+// update height when screen resizes
+const updateCircleHeight = () => {
+    for (let i = 0; i < dynamicObjects.length; i++) {
+        if (window.innerWidth > window.innerHeight)
+            dynamicObjects[i].style.height = (window.innerWidth / window.innerHeight * parseFloat(dynamicObjects[i].style.width)) + "%";
+        else
+            dynamicObjects[i].style.width = (window.innerHeight / window.innerWidth * parseFloat(dynamicObjects[i].style.height)) + "%";
+    }
+}
+window.addEventListener("resize", updateCircleHeight);
